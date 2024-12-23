@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-class AddProductPage extends StatelessWidget {
-  AddProductPage({super.key});
+class AddProductPage extends StatefulWidget {
+  const AddProductPage({super.key});
 
-  // Controller untuk menangkap input pengguna
+  @override
+  State<AddProductPage> createState() => _AddProductPageState();
+}
+
+class _AddProductPageState extends State<AddProductPage> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
+  File? _image;
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -39,7 +58,7 @@ class AddProductPage extends StatelessWidget {
               const SizedBox(height: 8),
               TextField(
                 controller: priceController,
-                keyboardType: TextInputType.number, // Input hanya angka
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   hintText: 'Masukkan harga barang',
                   border: OutlineInputBorder(
@@ -55,7 +74,7 @@ class AddProductPage extends StatelessWidget {
               const SizedBox(height: 8),
               TextField(
                 controller: quantityController,
-                keyboardType: TextInputType.number, // Input hanya angka
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   hintText: 'Masukkan jumlah barang',
                   border: OutlineInputBorder(
@@ -63,12 +82,39 @@ class AddProductPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
+              const Text(
+                "Gambar Barang",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              InkWell(
+                onTap: _pickImage,
+                child: Container(
+                  height: 150,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: _image == null
+                      ? const Center(
+                          child: Text(
+                            'Tap untuk memilih gambar',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        )
+                      : Image.file(
+                          _image!,
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              ),
               const SizedBox(height: 24),
               SizedBox(
-                width: double.infinity, // Tombol memenuhi lebar layar
+                width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    // Aksi ketika tombol disubmit
                     final name = nameController.text;
                     final price = priceController.text;
                     final quantity = quantityController.text;
@@ -76,10 +122,11 @@ class AddProductPage extends StatelessWidget {
                     print('Nama Barang: $name');
                     print('Harga Barang: $price');
                     print('Jumlah Barang: $quantity');
+                    print('Gambar Barang: ${_image?.path}');
 
-                    // Lakukan validasi atau pengiriman data ke backend
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Data berhasil ditambahkan!')),
+                      const SnackBar(
+                          content: Text('Data berhasil ditambahkan!')),
                     );
                   },
                   icon: const Icon(Icons.save),
@@ -87,7 +134,6 @@ class AddProductPage extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white,
-                    iconColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     textStyle: const TextStyle(fontSize: 18),
                   ),

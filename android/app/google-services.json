@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "173315536183",
-    "project_id": "craftnect-5325e",
-    "storage_bucket": "craftnect-5325e.firebasestorage.app"
+    "project_number": "579814252308",
+    "project_id": "craftnect-658c7",
+    "storage_bucket": "craftnect-658c7.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:173315536183:android:0fc0e8cfbeb2ff1a36d6b2",
+        "mobilesdk_app_id": "1:579814252308:android:fcd24bea5bd3a1c2286c01",
         "android_client_info": {
-          "package_name": "com.example.craftnect_app"
+          "package_name": "com.example.login"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCf5qgaSaoRDE1gp502cqJTK-LkLqH175w"
+          "current_key": "AIzaSyBAXZEmsy0QrNfOJNl8NGXkZTh9tmn_sl8"
         }
       ],
       "services": {
